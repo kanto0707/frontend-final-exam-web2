@@ -4,7 +4,7 @@ import { getStudents, createStudent, setStudentBlocked } from "../../api/student
 import ConfirmModal from "../../components/ConfirmModal";
 
 function emptyForm() {
-    return { name: "", email: "", password: "" };
+    return { first_name: "", last_name: "", email: "", password: "" };
 }
 
 export default function AdminStudents() {
@@ -30,8 +30,8 @@ export default function AdminStudents() {
 
     function handleCreate(e) {
         e.preventDefault();
-        if (!form.name.trim() || !form.email.trim() || !form.password) {
-            setError("Nom, email et mot de passe sont requis.");
+        if (!form.first_name.trim() || !form.last_name.trim() || !form.email.trim() || !form.password) {
+            setError("Prénom, nom, email et mot de passe sont requis.");
             return;
         }
         createStudent(form)
@@ -46,7 +46,7 @@ export default function AdminStudents() {
 
     function confirmToggleBlock() {
         const { student, blocked } = pendingBlock;
-        setStudentBlocked(student.id, blocked)
+        setStudentBlocked(student.id, student.first_name, student.last_name, student.email, !blocked)
             .then((updated) => {
                 setStudents((prev) => prev.map((s) => (s.id === student.id ? updated : s)));
             })
@@ -75,11 +75,19 @@ export default function AdminStudents() {
                         <form onSubmit={handleCreate}>
                             <div className="field-row">
                                 <div className="field">
+                                    <label>Prénom</label>
+                                    <input
+                                        type="text"
+                                        value={form.first_name}
+                                        onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                                    />
+                                </div>
+                                <div className="field">
                                     <label>Nom</label>
                                     <input
                                         type="text"
-                                        value={form.name}
-                                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                        value={form.last_name}
+                                        onChange={(e) => setForm({ ...form, last_name: e.target.value })}
                                     />
                                 </div>
                                 <div className="field">
@@ -128,7 +136,7 @@ export default function AdminStudents() {
                         <tbody>
                         {students.map((student) => (
                             <tr key={student.id}>
-                                <td>{student.name}</td>
+                                <td>{student.first_name} {student.last_name}</td>
                                 <td>{student.email}</td>
                                 <td>
                     <span className={`status ${student.blocked ? "status-blocked" : "status-available"}`}>
@@ -156,7 +164,7 @@ export default function AdminStudents() {
             {pendingBlock && (
                 <ConfirmModal
                     title={pendingBlock.blocked ? "Bloquer cet étudiant ?" : "Débloquer cet étudiant ?"}
-                    message={`${pendingBlock.student.name} ${
+                    message={`${pendingBlock.student.first_name} ${pendingBlock.student.last_name} ${
                         pendingBlock.blocked
                             ? "ne pourra plus se connecter ni passer d'examen."
                             : "pourra de nouveau se connecter."

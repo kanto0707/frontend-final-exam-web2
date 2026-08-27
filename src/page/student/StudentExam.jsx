@@ -32,10 +32,12 @@ export default function StudentExam() {
         setSubmitting(true);
         setError("");
 
-        const payload = exam.questions.map((q) => ({
-            questionId: q.id,
-            optionId: answers[q.id] || null,
-        }));
+        const payload = exam.questions
+            .filter((q) => answers[q.id])
+            .map((q) => ({
+                question_id: q.id,
+                choice_id: answers[q.id],
+            }));
 
         submitExam(id, payload)
             .then(() => {

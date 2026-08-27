@@ -46,7 +46,7 @@ export default function ExamCard({ exam, viewer = "student" }) {
     const statusClass = STATUS_CLASSES[status];
 
     const detailLink =
-        viewer === "admin" ? `/admin/exams/${exam.id}` : `/student/exams/${exam.id}`;
+        viewer === "admin" ? `/admin/exams/${exam.id}/questions` : `/student/exams/${exam.id}`;
 
     const canStart = viewer === "student" && status === "available";
     const canReview = viewer === "student" && status === "done";

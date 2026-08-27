@@ -18,14 +18,27 @@ function handleResponse(res) {
     });
 }
 
+function normalizeStudent(student) {
+    return {
+        ...student,
+        first_name: student.first_name || student.name?.split(" ")[0] || "",
+        last_name: student.last_name || student.name?.split(" ").slice(1).join(" ") || "",
+        blocked: student.is_active === false,
+    };
+}
+
 export function getStudents() {
-    return fetch(`${API_URL}/students`, { headers: authHeaders() }).then(handleResponse);
+    return fetch(`${API_URL}/students`, { headers: authHeaders() }).then(handleResponse).then((students) => students.map(normalizeStudent));
 }
 
 export function getStudent(studentId) {
-    return fetch(`${API_URL}/students/${studentId}`, { headers: authHeaders() }).then(
-        handleResponse
-    );
+    return getStudents().then((students) => {
+        const student = students.find((item) => String(item.id) === String(studentId));
+        if (!student) {
+            throw new Error("Étudiant introuvable.");
+        }
+        return normalizeStudent(student);
+    });
 }
 
 export function createStudent(studentData) {
@@ -33,29 +46,29 @@ export function createStudent(studentData) {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify(studentData),
-    }).then(handleResponse);
+    }).then(handleResponse).then(normalizeStudent);
 }
 
-export function updateStudentEmail(studentId, email) {
+export function updateStudentEmail(studentId, firstName, lastName, email) {
     return fetch(`${API_URL}/students/${studentId}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: authHeaders(),
-        body: JSON.stringify({ email }),
-    }).then(handleResponse);
+        body: JSON.stringify({ first_name: firstName, last_name: lastName, email }),
+    }).then(handleResponse).then(normalizeStudent);
 }
 
-export function updateStudentPassword(studentId, password) {
+export function updateStudentPassword(studentId, firstName, lastName, email, password) {
     return fetch(`${API_URL}/students/${studentId}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: authHeaders(),
-        body: JSON.stringify({ password }),
-    }).then(handleResponse);
+        body: JSON.stringify({ first_name: firstName, last_name: lastName, email, password }),
+    }).then(handleResponse).then(normalizeStudent);
 }
 
-export function setStudentBlocked(studentId, blocked) {
+export function setStudentBlocked(studentId, firstName, lastName, email, isActive) {
     return fetch(`${API_URL}/students/${studentId}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: authHeaders(),
-        body: JSON.stringify({ blocked }),
-    }).then(handleResponse);
+        body: JSON.stringify({ first_name: firstName, last_name: lastName, email, is_active: isActive }),
+    }).then(handleResponse).then(normalizeStudent);
 }

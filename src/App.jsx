@@ -18,9 +18,11 @@ import AdminExamQuestions from "./page/admin/AdminExamQuestions";
 import AdminExamResults from "./page/admin/AdminExamResults";
 
 import StudentHome from "./page/student/StudentHome";
+import StudentExams from "./page/student/StudentExams";
 import StudentExam from "./page/student/StudentExam.jsx";
-import StudentResult from "./page/student/StudentResults.jsx";
+import StudentResult from "./page/student/StudentResult.jsx";
 import StudentResults from "./page/student/StudentResults";
+import StudentHistory from "./page/student/StudentHistory";
 import StudentProfile from "./page/student/StudentProfile";
 
 export default function App() {
@@ -132,6 +134,14 @@ export default function App() {
                         }
                     />
                     <Route
+                        path="/student/exams"
+                        element={
+                            <ProtectedRoute user={user} allowedRoles={["student"]}>
+                                <StudentExams />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
                         path="/student/exams/:id"
                         element={
                             <ProtectedRoute user={user} allowedRoles={["student"]}>
@@ -144,6 +154,14 @@ export default function App() {
                         element={
                             <ProtectedRoute user={user} allowedRoles={["student"]}>
                                 <StudentResult />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/student/history"
+                        element={
+                            <ProtectedRoute user={user} allowedRoles={["student"]}>
+                                <StudentHistory />
                             </ProtectedRoute>
                         }
                     />
