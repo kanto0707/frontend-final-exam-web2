@@ -18,8 +18,8 @@ import AdminExamQuestions from "./page/admin/AdminExamQuestions";
 import AdminExamResults from "./page/admin/AdminExamResults";
 
 import StudentHome from "./page/student/StudentHome";
-import StudentExam from "./page/student/StudentExam";
-import StudentResult from "./page/student/StudentResult";
+import StudentExam from "./page/student/StudentExam.jsx";
+import StudentResult from "./page/student/StudentResults.jsx";
 import StudentResults from "./page/student/StudentResults";
 import StudentProfile from "./page/student/StudentProfile";
 

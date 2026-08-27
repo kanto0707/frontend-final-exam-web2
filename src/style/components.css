@@ -1,0 +1,279 @@
+/* ---- Navbar ---- */
+.navbar {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.navbar-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+}
+
+.navbar-brand .seal {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.navbar-links a {
+    padding: 8px 12px;
+    border-radius: var(--radius-s);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--ink-soft);
+}
+
+.navbar-links a.active,
+.navbar-links a:hover {
+    background: var(--paper);
+    color: var(--ink);
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.85rem;
+}
+
+.navbar-user .name {
+    font-weight: 600;
+}
+
+.navbar-user .role-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+}
+
+/* ---- Exam ticket card (signature element) ---- */
+.exam-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-card);
+    padding: 20px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.exam-card::before {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background-image: repeating-linear-gradient(
+            to bottom,
+            var(--border) 0,
+            var(--border) 4px,
+            transparent 4px,
+            transparent 10px
+    );
+}
+
+.exam-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.exam-card-subject {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.exam-card-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+.exam-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+}
+
+.exam-card-meta .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.exam-card-meta .meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+}
+
+.exam-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+}
+
+/* ---- Question ---- */
+.question-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 22px;
+    margin-bottom: 18px;
+}
+
+.question-index {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.question-text {
+    font-size: 1.02rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--ink);
+}
+
+.option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-s);
+    cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.option-item:hover {
+    border-color: var(--gold);
+}
+
+.option-item.selected {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+}
+
+.option-item input[type="radio"] {
+    width: auto;
+    accent-color: var(--ink);
+}
+
+.option-item.correct {
+    border-color: var(--green);
+    background: var(--green-soft);
+}
+
+.option-item.incorrect {
+    border-color: var(--rust);
+    background: var(--rust-soft);
+}
+
+.option-item.disabled {
+    cursor: default;
+}
+
+/* ---- Modal ---- */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 35, 63, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal-card {
+    background: var(--surface);
+    border-radius: var(--radius-l);
+    padding: 28px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(22, 35, 63, 0.25);
+}
+
+.modal-card h3 {
+    margin-bottom: 10px;
+}
+
+.modal-card p {
+    margin-bottom: 22px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* ---- Timer chip ---- */
+.timer-chip {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
