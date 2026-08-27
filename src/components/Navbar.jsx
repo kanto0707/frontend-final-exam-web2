@@ -3,14 +3,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 const ADMIN_LINKS = [
     { to: "/admin", label: "Tableau de bord", end: true },
     { to: "/admin/exams", label: "Examens" },
-    { to: "/admin/subjects", label: "Matières" },
+    { to: "/admin/courses", label: "Cours" },
     { to: "/admin/students", label: "Étudiants" },
 ];
 
 const STUDENT_LINKS = [
-    { to: "/student", label: "Accueil", end: true },
-    { to: "/student/exams", label: "Examens" },
-    { to: "/student/history", label: "Historique" },
+    { to: "/student", label: "Examens disponibles", end: true },
+    { to: "/student/results", label: "Mes résultats" },
     { to: "/student/profile", label: "Profil" },
 ];
 
@@ -24,7 +23,7 @@ export default function Navbar({ user, onLogout }) {
 
     function handleLogout() {
         onLogout();
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
     }
 
     return (

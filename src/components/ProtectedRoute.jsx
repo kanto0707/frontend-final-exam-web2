@@ -4,7 +4,7 @@ export default function ProtectedRoute({ user, allowedRoles, children }) {
     const location = useLocation();
 
     if (!user) {
-        return <Navigate to="/" replace state={{ from: location }} />;
+        return <Navigate to="/login" replace state={{ from: location }} />;
     }
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
