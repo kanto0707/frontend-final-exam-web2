@@ -15,7 +15,7 @@ export default function Login({ onLogin }) {
         setError("");
 
         if (!email.trim() || !password) {
-            setError("Entrer votre email et votre mot de passe.");
+            setError("Veuillez renseigner votre email et votre mot de passe.");
             return;
         }
 
