@@ -55,7 +55,7 @@ export default function StudentResult() {
             <span> / {result.total}</span>
           </div>
           <p className="result-sub">
-            {result.score} bonne(s) réponse(s) sur {result.total} question(s)
+            {result.score} point(s) obtenu(s) sur {result.total} point(s)
           </p>
         </div>
 

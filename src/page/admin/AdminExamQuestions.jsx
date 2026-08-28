@@ -8,6 +8,7 @@ function emptyQuestion() {
     return {
         id: crypto.randomUUID(),
         text: "",
+        points: 1,
         correctOptionId: null,
         options: [
             { id: crypto.randomUUID(), text: "" },
@@ -42,8 +43,8 @@ export default function AdminExamQuestions() {
     }, [id]);
 
     function handleAddQuestion() {
-        if (!draft.text.trim() || !draft.correctOptionId || draft.options.some((o) => !o.text.trim())) {
-            setError("Complétez l'énoncé, les propositions et la bonne réponse.");
+        if (!draft.text.trim() || !draft.correctOptionId || !draft.points || draft.points < 1 || draft.options.some((o) => !o.text.trim())) {
+            setError("Complétez l'énoncé, les points, les propositions et la bonne réponse.");
             return;
         }
         setError("");
@@ -99,6 +100,7 @@ export default function AdminExamQuestions() {
                         <div className="question-block" key={q.id}>
                             <div className="toolbar" style={{ marginBottom: 8 }}>
                                 <span className="question-index">Question {i + 1}</span>
+                                <span>{q.points} point(s)</span>
                                 <button className="btn-danger btn-sm" onClick={() => setPendingDelete(q)}>
                                     Supprimer
                                 </button>

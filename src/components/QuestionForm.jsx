@@ -50,6 +50,18 @@ export default function QuestionForm({ question, index, onChange, onRemove }) {
                 />
             </div>
 
+            <div className="field">
+                <label htmlFor={`points-${question.id}`}>Points</label>
+                <input
+                    id={`points-${question.id}`}
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={question.points ?? 1}
+                    onChange={(e) => onChange({ ...question, points: Number(e.target.value) })}
+                />
+            </div>
+
             <label>Propositions (2 à 6) — cochez la bonne réponse</label>
             {question.options.map((option, i) => (
                 <div className="option-builder-row" key={option.id}>

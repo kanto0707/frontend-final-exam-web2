@@ -66,7 +66,7 @@ export function addExamQuestion(examId, questionData) {
         headers: authHeaders(),
         body: JSON.stringify({
             statement: questionData.text.trim(),
-            points: 1,
+            points: Number(questionData.points) || 1,
             choices: questionData.options.map((option) => ({
                 text: option.text.trim(),
                 is_correct: option.id === questionData.correctOptionId,
@@ -108,7 +108,10 @@ export function getExamToTake(examId) {
             text: question.statement,
             options: question.choices || [],
         })),
-    }));
+    })).then((exam) => {
+        sessionStorage.setItem(`exam_detail_${examId}`, JSON.stringify(exam));
+        return exam;
+    });
 }
 
 export function submitExam(examId, answers) {
@@ -117,13 +120,18 @@ export function submitExam(examId, answers) {
         headers: authHeaders(),
         body: JSON.stringify({ answers }),
     }).then(handleResponse).then((result) => {
+        const examDetail = JSON.parse(sessionStorage.getItem(`exam_detail_${examId}`) || "null");
         result.questions = (result.correction || []).map((line) => ({
             id: line.question_id,
             text: line.statement,
             points: line.points,
-            options: [],
+            options: examDetail?.questions?.find((question) => question.id === line.question_id)?.options || [],
             selectedOptionId: line.student_choice_id,
             correctOptionId: line.correct_choice_id,
+            selectedOptionText: examDetail?.questions?.find((question) => question.id === line.question_id)?.options
+                ?.find((option) => option.id === line.student_choice_id)?.text,
+            correctOptionText: examDetail?.questions?.find((question) => question.id === line.question_id)?.options
+                ?.find((option) => option.id === line.correct_choice_id)?.text,
         }));
         result.total = result.total_points;
         sessionStorage.setItem(`exam_result_${examId}`, JSON.stringify(result));

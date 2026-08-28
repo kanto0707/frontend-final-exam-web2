@@ -1,15 +1,18 @@
 export default function Question({
-                                     question,
-                                     index,
-                                     selectedOptionId,
-                                     onSelect,
-                                     review = false,
-                                     correctOptionId,
-                                 }) {
+    question,
+    index,
+    selectedOptionId,
+    onSelect,
+    review = false,
+    correctOptionId,
+    selectedOptionText,
+    correctOptionText,
+}) {
     return (
         <div className="question-block">
             <span className="question-index">Question {index + 1}</span>
             <p className="question-text">{question.text}</p>
+            {question.points != null && <span className="question-points">{question.points} point(s)</span>}
 
             <div className="option-list">
                 {question.options.map((option) => {
@@ -50,6 +53,12 @@ export default function Question({
                             : "Réponse incorrecte"
                         : "Aucune réponse sélectionnée — 0 point"}
                 </p>
+            )}
+            {review && (selectedOptionText || correctOptionText) && (
+                <div className="hint" style={{ marginTop: 8 }}>
+                    <p>Votre réponse : {selectedOptionText || "Aucune réponse"}</p>
+                    <p>Bonne réponse : {correctOptionText || "Indisponible"}</p>
+                </div>
             )}
         </div>
     );
