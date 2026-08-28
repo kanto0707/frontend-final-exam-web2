@@ -65,10 +65,9 @@ export function updateStudentPassword(studentId, firstName, lastName, email, pas
     }).then(handleResponse).then(normalizeStudent);
 }
 
-export function setStudentBlocked(studentId, firstName, lastName, email, isActive) {
+export function setStudentBlocked(studentId) {
     return fetch(`${API_URL}/students/${studentId}`, {
-        method: "PUT",
+        method: "DELETE",
         headers: authHeaders(),
-        body: JSON.stringify({ first_name: firstName, last_name: lastName, email, is_active: isActive }),
     }).then(handleResponse).then(normalizeStudent);
 }

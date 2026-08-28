@@ -41,10 +41,6 @@ export default function StudentHome({ user }) {
                 <div className="value">{available.length}</div>
                 <div className="label">Disponibles</div>
               </div>
-              <div className="stat">
-                <div className="value">{upcoming.length}</div>
-                <div className="label">À venir</div>
-              </div>
             </div>
 
             {exams.length === 0 ? (

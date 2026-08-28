@@ -45,7 +45,7 @@ export default function QuestionForm({ question, index, onChange, onRemove }) {
                 <input
                     type="text"
                     value={question.text}
-                    placeholder="Ex : Quelle est la capitale de Madagascar ?"
+                    placeholder="Votre question"
                     onChange={(e) => updateText(e.target.value)}
                 />
             </div>

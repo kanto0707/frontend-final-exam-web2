@@ -45,8 +45,8 @@ export default function AdminStudents() {
     }
 
     function confirmToggleBlock() {
-        const { student, blocked } = pendingBlock;
-        setStudentBlocked(student.id, student.first_name, student.last_name, student.email, !blocked)
+        const { student } = pendingBlock;
+        setStudentBlocked(student.id)
             .then((updated) => {
                 setStudents((prev) => prev.map((s) => (s.id === student.id ? updated : s)));
             })
