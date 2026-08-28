@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ExamForm from "../../components/ExamForm";
 import { createExam } from "../../api/examApi";
-import { getSubjects } from "../../api/subjectApi";
+import { getCourses } from "../../api/courseApi";
 
 export default function AdminExamCreate() {
-    const [subjects, setSubjects] = useState([]);
+    const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        getSubjects()
-            .then((data) => setSubjects(data || []))
-            .catch((err) => setError(err.message || "Impossible de charger les matières."))
+        getCourses()
+            .then((data) => setCourses(data || []))
+            .catch((err) => setError(err.message || "Impossible de charger les cours."))
             .finally(() => setLoading(false));
     }, []);
 
     function handleSubmit(examData) {
         setError("");
         createExam(examData)
-            .then((created) => navigate(`/admin/exams/${created.id}`))
+            .then((created) => navigate(`/admin/exams/${created.id}/questions`))
             .catch((err) => setError(err.message || "Impossible de créer l'examen."));
     }
 
@@ -31,7 +31,8 @@ export default function AdminExamCreate() {
                     <span className="eyebrow">Nouvel examen</span>
                     <h1>Créer un examen</h1>
                     <p className="sub">
-                        Choisissez une matière, définissez la période d'accès et ajoutez vos questions.
+                        Choisissez un cours et définissez la période d'accès. Vous ajouterez les questions
+                        à l'étape suivante.
                     </p>
                 </div>
 
@@ -39,14 +40,14 @@ export default function AdminExamCreate() {
 
                 {loading ? (
                     <div className="loading-block">
-                        <span className="spinner" /> Chargement des matières...
+                        <span className="spinner" /> Chargement des cours...
                     </div>
-                ) : subjects.length === 0 ? (
+                ) : courses.length === 0 ? (
                     <div className="empty-state">
-                        Vous devez d'abord créer une matière avant de pouvoir créer un examen.
+                        Vous devez d'abord créer un cours avant de pouvoir créer un examen.
                     </div>
                 ) : (
-                    <ExamForm subjects={subjects} onSubmit={handleSubmit} submitLabel="Créer l'examen" />
+                    <ExamForm courses={courses} onSubmit={handleSubmit} submitLabel="Créer et ajouter les questions" />
                 )}
             </div>
         </div>

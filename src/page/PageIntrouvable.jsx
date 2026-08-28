@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export default function PageIntrouvable({ user }) {
-    const home = user ? (user.role === "admin" ? "/admin" : "/student") : "/";
+    const home = user ? (user.role === "admin" ? "/admin" : "/student") : "/login";
 
     return (
         <div className="page">

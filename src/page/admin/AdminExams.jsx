@@ -60,8 +60,11 @@ export default function AdminExams() {
                             <div key={exam.id}>
                                 <ExamCard exam={exam} viewer="admin" />
                                 <div className="actions-cell" style={{ marginTop: 10 }}>
-                                    <Link to={`/admin/exams/${exam.id}/edit`} className="btn-outline btn-sm">
-                                        Modifier
+                                    <Link to={`/admin/exams/${exam.id}/questions`} className="btn-outline btn-sm">
+                                        Questions
+                                    </Link>
+                                    <Link to={`/admin/exams/${exam.id}/results`} className="btn-outline btn-sm">
+                                        Résultats
                                     </Link>
                                     <button className="btn-danger btn-sm" onClick={() => setPendingDelete(exam)}>
                                         Supprimer

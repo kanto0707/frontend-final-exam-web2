@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
+import { getUserDisplayName } from "../api/authApi";
 
 const ADMIN_LINKS = [
     { to: "/admin", label: "Tableau de bord", end: true },
@@ -49,7 +50,7 @@ export default function Navbar({ user, onLogout }) {
 
                 <div className="navbar-user">
                     <div>
-                        <div className="name">{user.name || user.email}</div>
+                        <div className="name">{getUserDisplayName(user)}</div>
                         <div className="role-tag">{user.role === "admin" ? "Admin" : "Student"}</div>
                     </div>
                     <button className="btn-outline btn-sm" onClick={handleLogout}>

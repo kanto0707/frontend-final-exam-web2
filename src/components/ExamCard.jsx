@@ -40,14 +40,13 @@ export function computeDisplayStatus(exam) {
     return "available";
 }
 
-
 export default function ExamCard({ exam, viewer = "student" }) {
     const status = computeDisplayStatus(exam);
     const statusLabel = STATUS_LABELS[status];
     const statusClass = STATUS_CLASSES[status];
 
     const detailLink =
-        viewer === "admin" ? `/admin/exams/${exam.id}` : `/student/exams/${exam.id}`;
+        viewer === "admin" ? `/admin/exams/${exam.id}/questions` : `/student/exams/${exam.id}`;
 
     const canStart = viewer === "student" && status === "available";
     const canReview = viewer === "student" && status === "done";
@@ -89,7 +88,7 @@ export default function ExamCard({ exam, viewer = "student" }) {
                         Commencer
                     </Link>
                 ) : canReview ? (
-                    <Link to={`/student/result/${exam.id}`} className="btn-outline btn-sm">
+                    <Link to={`/student/exams/${exam.id}/result`} className="btn-outline btn-sm">
                         Voir le résultat
                     </Link>
                 ) : (

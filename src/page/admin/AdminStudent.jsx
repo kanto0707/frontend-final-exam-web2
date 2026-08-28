@@ -33,7 +33,7 @@ export default function AdminStudent() {
         e.preventDefault();
         setError("");
         setSuccess("");
-        updateStudentEmail(id, email)
+        updateStudentEmail(id, student.first_name, student.last_name, email)
             .then((updated) => {
                 setStudent(updated);
                 setSuccess("Email mis à jour.");
@@ -44,7 +44,7 @@ export default function AdminStudent() {
     function confirmPasswordChange() {
         setError("");
         setSuccess("");
-        updateStudentPassword(id, newPassword)
+        updateStudentPassword(id, student.first_name, student.last_name, student.email, newPassword)
             .then(() => {
                 setSuccess("Mot de passe mis à jour par l'administrateur.");
                 setNewPassword("");
@@ -55,7 +55,7 @@ export default function AdminStudent() {
 
     function confirmToggleBlock() {
         setError("");
-        setStudentBlocked(id, !student.blocked)
+        setStudentBlocked(id, student.first_name, student.last_name, student.email, !student.is_active)
             .then((updated) => setStudent(updated))
             .catch((err) => setError(err.message || "Action impossible."))
             .finally(() => setPendingAction(null));
@@ -86,7 +86,7 @@ export default function AdminStudent() {
             <div className="container">
                 <div className="page-header">
                     <span className="eyebrow">Étudiant</span>
-                    <h1>{student.name}</h1>
+                    <h1>{student.first_name} {student.last_name}</h1>
                     <span className={`status ${student.blocked ? "status-blocked" : "status-available"}`}>
             {student.blocked ? "Bloqué" : "Actif"}
           </span>

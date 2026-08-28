@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 export function getStoredUser() {
     const raw = localStorage.getItem("examina_user");
@@ -7,6 +7,11 @@ export function getStoredUser() {
 
 export function getToken() {
     return localStorage.getItem("examina_token");
+}
+
+export function getUserDisplayName(user) {
+    if (!user) return "";
+    return [user.first_name, user.last_name].filter(Boolean).join(" ") || user.name || user.email;
 }
 
 function storeSession(token, user) {
@@ -20,19 +25,32 @@ function clearSession() {
 }
 
 
-export function login(email, password, role) {
+export function login(email, password) {
     return fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role }),
+        body: JSON.stringify({ email, password }),
     })
-        .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+        .then(async (res) => {
+            const data = await res.json().catch(() => ({}));
+            return { ok: res.ok, data };
+        })
         .then(({ ok, data }) => {
             if (!ok) {
                 throw new Error(data?.message || "Email ou mot de passe incorrect.");
             }
-            storeSession(data.token, data.user);
-            return data.user;
+
+            if (!data.token || !data.user) {
+                throw new Error("Réponse de connexion invalide.");
+            }
+
+            const user = {
+                ...data.user,
+                first_name: data.user.first_name || data.user.name?.split(" ")[0] || "",
+                last_name: data.user.last_name || data.user.name?.split(" ").slice(1).join(" ") || "",
+            };
+            storeSession(data.token, user);
+            return user;
         });
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getExams } from "../../api/examApi";
-import { getSubjects } from "../../api/subjectApi";
+import { getCourses } from "../../api/courseApi";
 import { getStudents } from "../../api/studentApi";
 import { computeDisplayStatus } from "../../components/ExamCard";
 
@@ -16,10 +16,10 @@ export default function AdminHome({ user }) {
         setLoading(true);
         setError("");
 
-        Promise.all([getExams(), getSubjects(), getStudents()])
-            .then(([examsData, subjectsData, studentsData]) => {
+        Promise.all([getExams(), getCourses(), getStudents()])
+            .then(([examsData, coursesData, studentsData]) => {
                 setExams(examsData || []);
-                setSubjectCount((subjectsData || []).length);
+                setSubjectCount((coursesData || []).length);
                 setStudentCount((studentsData || []).length);
             })
             .catch((err) => {
@@ -60,7 +60,7 @@ export default function AdminHome({ user }) {
                             </div>
                             <div className="stat">
                                 <div className="value">{subjectCount}</div>
-                                <div className="label">Matières</div>
+                                <div className="label">Cours</div>
                             </div>
                             <div className="stat">
                                 <div className="value">{studentCount}</div>
@@ -88,10 +88,10 @@ export default function AdminHome({ user }) {
                                     <h3>Créer un examen</h3>
                                     <p>Définissez matière, dates et questions.</p>
                                 </Link>
-                                <Link to="/admin/subjects" className="shortcut-card">
-                                    <span className="eyebrow">Matières</span>
-                                    <h3>Gérer les matières</h3>
-                                    <p>Ajoutez ou modifiez les matières disponibles.</p>
+                                <Link to="/admin/courses" className="shortcut-card">
+                                    <span className="eyebrow">Cours</span>
+                                    <h3>Gérer les cours</h3>
+                                    <p>Ajoutez ou modifiez les cours disponibles.</p>
                                 </Link>
                                 <Link to="/admin/students" className="shortcut-card">
                                     <span className="eyebrow">Étudiants</span>

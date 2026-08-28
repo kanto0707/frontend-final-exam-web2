@@ -1,99 +1,80 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { getExamResult } from "../../api/examApi";
 import Question from "../../components/Question";
 
-export default function StudentResults() {
-    const { id } = useParams();
+export default function StudentResult() {
+  const { id } = useParams();
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-    const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+  useEffect(() => {
+    getExamResult(id)
+      .then((data) => setResult(data))
+      .catch((err) =>
+        setError(err.message || "Résultat introuvable. Avez-vous déjà soumis cet examen ?")
+      )
+      .finally(() => setLoading(false));
+  }, [id]);
 
-    useEffect(() => {
-        let cancelled = false;
-        setLoading(true);
-        setError("");
-
-        getExamResult(id)
-            .then((data) => {
-                if (cancelled) return;
-                setResult(data);
-            })
-            .catch((err) => {
-                if (!cancelled) {
-                    setError(err.message || "Impossible de charger ce résultat.");
-                }
-            })
-            .finally(() => {
-                if (!cancelled) setLoading(false);
-            });
-
-        return () => {
-            cancelled = true;
-        };
-    }, [id]);
-
-    if (loading) {
-        return (
-            <div className="page">
-                <div className="container">
-                    <div className="loading-block">
-                        <span className="spinner" /> Chargement...
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (error || !result) {
-        return (
-            <div className="page">
-                <div className="container">
-                    <div className="alert alert-error">
-                        {error || "Résultat introuvable."}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    const questions = result.questions || [];
-    const score = result.score ?? 0;
-    const total = result.total ?? result.totalQuestions ?? questions.length;
-
+  if (loading) {
     return (
-        <div className="page">
-            <div className="container">
-                <div className="page-header">
-                    <h1>Résultat</h1>
-                </div>
-
-                <div className="score-card">
-                    <div className="score-value">
-                        {score}
-                        <span className="score-total">/{total}</span>
-                    </div>
-                    <p className="sub">
-                        {score} bonne(s) réponse(s) sur {total} question(s)
-                    </p>
-                </div>
-
-                <div className="section">
-                    <h3 style={{ marginBottom: 16 }}>Correction</h3>
-
-                    {questions.map((question, index) => (
-                        <Question
-                            key={question.id}
-                            question={question}
-                            index={index}
-                            review
-                            selectedOptionId={question.selectedOptionId}
-                            correctOptionId={question.correctOptionId}
-                        />
-                    ))}
-                </div>
-            </div>
+      <div className="page">
+        <div className="container loading-block">
+          <span className="spinner" /> Chargement du résultat...
         </div>
+      </div>
     );
+  }
+
+  if (error || !result) {
+    return (
+      <div className="page">
+        <div className="container">
+          <div className="alert alert-error">{error || "Résultat introuvable."}</div>
+          <Link to="/student/exams" className="btn-outline">
+            Retour aux examens
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page">
+      <div className="container">
+        <div className="page-header">
+          <span className="eyebrow">{result.subjectName}</span>
+          <h1>Résultat</h1>
+        </div>
+
+        <div className="result-hero">
+          <div className="result-score mono">
+            {result.score}
+            <span> / {result.total}</span>
+          </div>
+          <p className="result-sub">
+            {result.score} point(s) obtenu(s) sur {result.total} point(s)
+          </p>
+        </div>
+
+        <h3>Correction</h3>
+        {(result.questions || []).map((q, i) => (
+          <Question
+            key={q.id}
+            question={q}
+            index={i}
+            review
+            selectedOptionId={q.selectedOptionId}
+            correctOptionId={q.correctOptionId}
+          />
+        ))}
+
+        <Link to="/student/results" className="btn-outline">
+          Voir mes résultats
+        </Link>
+      </div>
+    </div>
+  );
 }

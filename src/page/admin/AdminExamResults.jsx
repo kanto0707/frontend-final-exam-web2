@@ -40,7 +40,7 @@ export default function AdminExamResults() {
         );
     }
 
-    const students = results?.students || [];
+    const submittedResults = results?.results || [];
 
     return (
         <div className="page">
@@ -57,16 +57,16 @@ export default function AdminExamResults() {
 
                 <div className="stat-row">
                     <div className="stat">
-                        <div className="value">{results?.attemptCount ?? 0}</div>
+                        <div className="value">{results?.attempt_count ?? 0}</div>
                         <div className="label">Tentatives</div>
                     </div>
                     <div className="stat">
-                        <div className="value">{results?.average ?? 0}</div>
+                        <div className="value">{results?.average ?? "—"}</div>
                         <div className="label">Moyenne</div>
                     </div>
                 </div>
 
-                {students.length === 0 ? (
+                {submittedResults.length === 0 ? (
                     <div className="empty-state">Aucun étudiant n'a encore passé cet examen.</div>
                 ) : (
                     <table>
@@ -78,11 +78,13 @@ export default function AdminExamResults() {
                         </tr>
                         </thead>
                         <tbody>
-                        {students.map((s) => (
-                            <tr key={s.studentId}>
-                                <td>{s.studentName || s.studentId}</td>
-                                <td className="mono">{s.score}</td>
-                                <td className="mono">{formatDateTime(s.submittedAt)}</td>
+                        {submittedResults.map((submission) => (
+                            <tr key={submission.student_id}>
+                                <td>{submission.name || `Étudiant #${submission.student_id}`}</td>
+                                <td className="mono">
+                                    {submission.score} / {results.total_points}
+                                </td>
+                                <td className="mono">{formatDateTime(submission.submitted_at)}</td>
                             </tr>
                         ))}
                         </tbody>

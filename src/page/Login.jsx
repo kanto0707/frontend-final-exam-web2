@@ -15,7 +15,7 @@ export default function Login({ onLogin }) {
         setError("");
 
         if (!email.trim() || !password) {
-            setError("Entrer votre email et votre mot de passe.");
+            setError("Veuillez renseigner votre email et votre mot de passe.");
             return;
         }
 
@@ -41,26 +41,6 @@ export default function Login({ onLogin }) {
                 </div>
                 <p className="auth-sub">Plateforme de gestion et de passage d'examens.</p>
 
-                <div className="role-toggle" role="tablist" aria-label="Type de compte">
-                    <button
-                        type="button"
-                        role="tab"
-                        aria-selected={role === "student"}
-                        className={role === "student" ? "active" : ""}
-                        onClick={() => setRole("student")}
-                    >
-                        Student
-                    </button>
-                    <button
-                        type="button"
-                        role="tab"
-                        aria-selected={role === "admin"}
-                        className={role === "admin" ? "active" : ""}
-                        onClick={() => setRole("admin")}
-                    >
-                        Admin
-                    </button>
-                </div>
 
                 {error && <div className="alert alert-error">{error}</div>}
 

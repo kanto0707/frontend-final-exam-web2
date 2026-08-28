@@ -27,11 +27,11 @@ export default function ExamForm({ courses, onSubmit, submitLabel = "Créer l'ex
         }
         setError("");
         onSubmit({
-            courseId,
+            course_id: Number(courseId),
             title: title.trim(),
             description,
-            startsAt: new Date(startsAt).toISOString(),
-            endsAt: new Date(endsAt).toISOString(),
+            starts_at: new Date(startsAt).toISOString(),
+            ends_at: new Date(endsAt).toISOString(),
         });
     }
 

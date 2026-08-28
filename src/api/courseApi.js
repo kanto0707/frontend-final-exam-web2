@@ -19,11 +19,11 @@ function handleResponse(res) {
 }
 
 export function getCourses() {
-    return fetch(`${API_URL}/admin/courses`, { headers: authHeaders() }).then(handleResponse);
+    return fetch(`${API_URL}/courses`, { headers: authHeaders() }).then(handleResponse);
 }
 
 export function createCourse(courseData) {
-    return fetch(`${API_URL}/admin/courses`, {
+    return fetch(`${API_URL}/courses`, {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify(courseData),
@@ -31,7 +31,7 @@ export function createCourse(courseData) {
 }
 
 export function updateCourse(courseId, courseData) {
-    return fetch(`${API_URL}/admin/courses/${courseId}`, {
+    return fetch(`${API_URL}/courses/${courseId}`, {
         method: "PUT",
         headers: authHeaders(),
         body: JSON.stringify(courseData),
@@ -39,7 +39,7 @@ export function updateCourse(courseId, courseData) {
 }
 
 export function deleteCourse(courseId) {
-    return fetch(`${API_URL}/admin/courses/${courseId}`, {
+    return fetch(`${API_URL}/courses/${courseId}`, {
         method: "DELETE",
         headers: authHeaders(),
     }).then(handleResponse);
